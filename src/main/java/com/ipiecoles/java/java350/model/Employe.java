@@ -72,8 +72,11 @@ public class Employe {
 				var = var + 2;
 			else
 				var = var + 1;
+			break;
 		case SATURDAY:
 			var = var + 1;
+			break;
+		default:
 			break;
 		}
 		int monInt = (int) Entreprise.joursFeries(d).stream()
@@ -121,8 +124,6 @@ public class Employe {
 		// Au pro rata du temps partiel.
 		return prime * this.tempsPartiel;
 	}
-
-	// public void augmenterSalaire(double pourcentage){}
 
 	public Long getId() {
 		return id;
