@@ -125,6 +125,12 @@ public class Employe {
 		return prime * this.tempsPartiel;
 	}
 
+	public void augmenterSalaire(double pourcentage) {
+		if (pourcentage >= 0 && pourcentage <= 1) {
+			this.salaire = this.salaire * (1 + pourcentage);
+		}
+	}
+
 	public Long getId() {
 		return id;
 	}

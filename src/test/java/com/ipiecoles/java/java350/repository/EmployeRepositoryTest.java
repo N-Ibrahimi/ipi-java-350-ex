@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.ipiecoles.java.java350.exception.EmployeException;
 import com.ipiecoles.java.java350.model.Employe;
 import com.ipiecoles.java.java350.service.EmployeService;
 
@@ -78,5 +79,46 @@ public class EmployeRepositoryTest {
 
 		// Then
 		Assertions.assertThat(result).isEqualTo("99999");
+	}
+
+	@Test
+	public void calculePerformaceTest() throws EmployeException {
+
+		// Given
+		// les paramètres sont initilisés dans la méthode BeforAll
+
+		// When
+		/**
+		 * Cette variable contient le résulat de la méthode
+		 * avgPerformanceWhereMatriculeStartsWith qui trouve la pérformance moyenne pour
+		 * un type d'employé donné
+		 */
+		Double performanceMoyenne = employeRepository.avgPerformanceWhereMatriculeStartsWith("C");
+
+		/**
+		 * Cette méthode fixe la performance de la Commerçant en fonction de son
+		 * CaObjective
+		 */
+		employeService.calculPerformanceCommercial("C33333", 115000L, 100000L);
+
+		/*
+		 * Ici, elle va trouver le comerçant C33333, qui a comme capitale 115000 et que
+		 * son caObjective était 100000. la méthode donc va initializer sa pérformance à
+		 * 4. parce qu'il a déja une pérformance égale à 2 et comme il a attente à son
+		 * objectif (sup +5), il gagne performance +1 et commme la pérformance moyenne
+		 * est 2 et qu'il a déja 3, donc supérieur à performance moyenne, il gagne
+		 * encore +1. Au total, son pérformance doit être (2+1+1) = 4.
+		 */
+		Employe employeTrouve = employeRepository.findByMatricule("C33333");
+		double empPerformanceAfterCalcule = employeTrouve.getPerformance();
+
+		// Then
+		/*
+		 * Vérification de l'exactitude du réusltat près avoir exécutée les méthodes -
+		 * calculPerformanceCommercial - avgPerformanceWhereMatriculeStartsWith
+		 */
+		Assertions.assertThat(performanceMoyenne).isEqualTo(2);
+		Assertions.assertThat(empPerformanceAfterCalcule).isEqualTo(4);
+
 	}
 }
